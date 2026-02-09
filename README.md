@@ -30,3 +30,11 @@ chmod +x run.sh
 ./run.sh
 ```
 A API estará disponível em: http://localhost:8080
+
+## Como rodar os testes unitários
+```bash
+go test ./... -v
+```
+- `./...`: Roda em todas as subpastas (recursivo).
+
+- `-v`: Verbose (mostra o nome de cada teste que rodou).
