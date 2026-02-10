@@ -2,6 +2,14 @@
 
 Este repositório contém a implementação de uma API REST para gestão de contas e transações financeiras. O projeto foi desenvolvido com foco em simplicidade, manutenibilidade e testabilidade, utilizando Go (Golang) e Docker.
 
+## 🛠 Tech Stack & Arquitetura
+
+- **Linguagem:** Go 1.22+
+- **Arquitetura:** Clean Architecture (Domain, UseCase, Repository, Handler).
+- **Design Patterns:** Factory Method, Repository Pattern, Dependency Injection.
+- **Conceitos:** DDD (Rich Domain Model), Object Calisthenics (Fail Fast, No Else).
+- **Testes:** Table Driven Tests com Mocks (`testify`).
+
 ## 🚀 Como Rodar o Projeto
 
 ### Pré-requisitos
