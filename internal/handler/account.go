@@ -20,16 +20,14 @@ func NewAccountHandler(createUC *usecase.CreateAccountUseCase, getUC *usecase.Ge
 }
 
 func (h *AccountHandler) CreateAccount(w http.ResponseWriter, r *http.Request) {
-	var input struct {
-		DocumentNumber string `json:"document_number"`
-	}
+	var input usecase.CreateAccountInput
 
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
 	}
 
-	account, err := h.createUseCase.Execute(input.DocumentNumber)
+	account, err := h.createUseCase.Execute(input)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

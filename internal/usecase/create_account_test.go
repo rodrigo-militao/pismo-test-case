@@ -1,10 +1,11 @@
-package usecase
+package usecase_test
 
 import (
 	"errors"
 	"testing"
 
 	"github.com/rodrigo-militao/pismo-tech-case/internal/domain"
+	"github.com/rodrigo-militao/pismo-tech-case/internal/usecase"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -47,7 +48,7 @@ func TestCreateAccountUseCase_Execute(t *testing.T) {
 			setupMock: func(m *MockAccountRepository) {
 				// Should not calll repository
 			},
-			expectedError: "Document number cannot be empty",
+			expectedError: "document number cannot be empty",
 		}, {
 			name:     "Error - Repository fails",
 			inputDoc: "12345678900",
@@ -63,10 +64,13 @@ func TestCreateAccountUseCase_Execute(t *testing.T) {
 			// Arrange
 			mockRepo := new(MockAccountRepository)
 			tc.setupMock(mockRepo)
-			uc := NewCreateAccountUseCase(mockRepo)
+			uc := usecase.NewCreateAccountUseCase(mockRepo)
+			input := usecase.CreateAccountInput{
+				DocumentNumber: tc.inputDoc,
+			}
 
 			// Act
-			result, err := uc.Execute(tc.inputDoc)
+			result, err := uc.Execute(input)
 
 			//Assert
 			if tc.expectedError != "" {

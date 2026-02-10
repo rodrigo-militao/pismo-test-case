@@ -1,10 +1,11 @@
-package usecase
+package usecase_test
 
 import (
 	"errors"
 	"testing"
 
 	"github.com/rodrigo-militao/pismo-tech-case/internal/domain"
+	"github.com/rodrigo-militao/pismo-tech-case/internal/usecase"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -57,7 +58,7 @@ func TestGetAccountUseCase_Execute(t *testing.T) {
 			// Arrange
 			mockRepo := new(MockAccountRepository)
 			tc.setupMock(mockRepo)
-			uc := NewGetAccountUseCase(mockRepo)
+			uc := usecase.NewGetAccountUseCase(mockRepo)
 
 			// Act
 			result, err := uc.Execute(tc.inputDoc)
