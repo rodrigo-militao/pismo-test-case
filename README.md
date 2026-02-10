@@ -4,37 +4,47 @@ Este repositório contém a implementação de uma API REST para gestão de cont
 
 ## 🚀 Como Rodar o Projeto
 
-Para atender aos critérios de avaliação de "Easy application execution", o projeto possui scripts utilitários na raiz.
-
 ### Pré-requisitos
 - **Docker** (para execução containerizada - Recomendado)
 - **Go 1.22+** (apenas para execução local sem Docker)
 
-### Opção 1: Via Docker (Ambiente Isolado)
-Esta é a forma recomendada para avaliação, garantindo que o ambiente seja idêntico ao de desenvolvimento. O script abaixo constrói a imagem e inicia o container na porta `8080`.
+### Opção 1: Via Docker (Universal & Recomendado)
+Esta opção garante o ambiente isolado. Funciona em qualquer terminal (PowerShell, CMD, Bash).
+O script abaixo constrói a imagem e inicia o container na porta `8080`.
 
+1. Construa a imagem:
 ```bash
-# Dá permissão de execução (necessário apenas na primeira vez)
-chmod +x docker-run.sh
-
-# Roda a aplicação via Docker
-./docker-run.sh
+docker build -t pismo-api .
 ```
+2. Execute o container
+```bash
+docker run --rm -p 8080:8080 pismo-api
+```
+
 ### Opção 2: Execução Local (Desenvolvimento)
-
+1. Base as dependências:
 ```bash
-# Dá permissão de execução
-chmod +x run.sh
-
-# Instala dependências e roda a aplicação
-./run.sh
+go mod tidy
 ```
-A API estará disponível em: http://localhost:8080
+2. Execute o container
+```bash
+go run cmd/api/main.go
+```
+#### A API estará disponível em: http://localhost:8080
+---
 
-## Como rodar os testes unitários
+### Como rodar os testes unitários
 ```bash
 go test ./... -v
 ```
 - `./...`: Roda em todas as subpastas (recursivo).
 
 - `-v`: Verbose (mostra o nome de cada teste que rodou).
+---
+
+### ⚡ Atalhos (Opcional)
+
+Para usuários de ambientes Unix (Linux/Mac/WSL), o projeto inclui um Makefile e scripts para conveniência:
+- Make: Execute make run ou make docker-run.
+- Scripts: Execute ./run.sh ou ./docker-run.sh.
+---
