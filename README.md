@@ -53,6 +53,6 @@ go test ./... -v
 ### ⚡ Atalhos (Opcional)
 
 Para usuários de ambientes Unix (Linux/Mac/WSL), o projeto inclui um Makefile e scripts para conveniência:
-- Make: Execute make run ou make docker-run.
-- Scripts: Execute ./run.sh ou ./docker-run.sh.
+- Make: Execute `make run` ou `make docker-run`.
+- Scripts: Execute `./run.sh` ou `./docker-run.sh`.
 ---
