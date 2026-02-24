@@ -11,6 +11,8 @@ type Transaction struct {
 	AccountID       int           `json:"account_id"`
 	OperationTypeID OperationType `json:"operation_type_id"`
 	Amount          float64       `json:"amount"`
+	Balance         float64       `json:"balance"`
+	IsCredit        bool          `json:"isCredit`
 	EventDate       time.Time     `json:"event_date"`
 }
 
@@ -30,6 +32,8 @@ func NewTransaction(accountID int, opType int, rawAmount float64) (*Transaction,
 		AccountID:       accountID,
 		OperationTypeID: operationType,
 		Amount:          finalAmount,
+		Balance:         finalAmount,
+		IsCredit:        !operationType.IsDebit(),
 		EventDate:       time.Now(),
 	}, nil
 }

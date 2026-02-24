@@ -15,6 +15,7 @@ func NewRouter(c *di.Container) *http.ServeMux {
 
 	// Transactions
 	mux.HandleFunc("POST /transactions", c.TransactionHandler.CreateTransaction)
+	mux.HandleFunc("GET /transactions/{accountId}", c.TransactionHandler.GetTransactions)
 
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

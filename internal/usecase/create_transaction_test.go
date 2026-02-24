@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/rodrigo-militao/pismo-tech-case/internal/domain"
+	"github.com/rodrigo-militao/pismo-tech-case/internal/repository"
 	"github.com/rodrigo-militao/pismo-tech-case/internal/usecase"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -17,6 +18,11 @@ type MockTransactionRepository struct {
 func (m *MockTransactionRepository) Create(t *domain.Transaction) error {
 	args := m.Called(t)
 	return args.Error(0)
+}
+
+func (m *MockTransactionRepository) FindByAccountId(accountId int) []*domain.Transaction {
+	// args := m.Called(accountId)
+	return []*domain.Transaction{}
 }
 
 func TestCreateTransactionUseCase_Execute(t *testing.T) {
@@ -130,4 +136,39 @@ func TestCreateTransactionUseCase_Execute(t *testing.T) {
 			mockTransRepo.AssertExpectations(t)
 		})
 	}
+}
+
+func TestCreateTransactionUseCase_PaymentDischarge(t *testing.T) {
+	accountRepo := repository.NewInMemoryAccountRepository()
+	transRepo := repository.NewInMemoryTransacRepository()
+
+	account := &domain.Account{
+		ID:             1,
+		DocumentNumber: "123456789",
+	}
+
+	accountRepo.Create(account)
+
+	uc := usecase.NewCreateTransactionUseCase(transRepo, accountRepo)
+
+	t1, _ := uc.Execute(usecase.CreateTransactionInput{AccountID: 1, OperationTypeID: 1, Amount: 50})
+	assert.Equal(t, -50.0, t1.Balance)
+
+	t2, _ := uc.Execute(usecase.CreateTransactionInput{AccountID: 1, OperationTypeID: 1, Amount: 23.50})
+	assert.Equal(t, -23.50, t2.Balance)
+
+	t3, _ := uc.Execute(usecase.CreateTransactionInput{AccountID: 1, OperationTypeID: 1, Amount: 18.7})
+	assert.Equal(t, -18.7, t3.Balance)
+
+	t4, _ := uc.Execute(usecase.CreateTransactionInput{AccountID: 1, OperationTypeID: 4, Amount: 60})
+	assert.Equal(t, 0.0, t4.Balance)
+
+	history := transRepo.FindByAccountId(account.ID)
+	assert.Equal(t, 0.0, history[0].Balance)
+	assert.Equal(t, -13.5, history[1].Balance)
+	assert.Equal(t, -18.7, history[2].Balance)
+
+	t5, _ := uc.Execute(usecase.CreateTransactionInput{AccountID: 1, OperationTypeID: 4, Amount: 100})
+	assert.Equal(t, 67.8, t5.Balance)
+
 }

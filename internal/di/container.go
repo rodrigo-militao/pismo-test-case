@@ -23,7 +23,7 @@ func NewContainer() *Container {
 
 	// Handlers
 	accountHandler := handler.NewAccountHandler(createAccountUC, getAccountUC)
-	transactionHandler := handler.NewTransactionHandler(createTransUC)
+	transactionHandler := handler.NewTransactionHandler(createTransUC, transRepo)
 
 	return &Container{
 		AccountHandler:     accountHandler,
